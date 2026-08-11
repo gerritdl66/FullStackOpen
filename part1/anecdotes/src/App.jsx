@@ -1,86 +1,28 @@
 import { useState } from 'react'
+import Note from './components/Note'
 
-const Titles = (props) => {
+
+const App = (props) => {
+  const [notes, setNotes] = useState(props.notes)
+
+  const addNote = (event) => {
+    event.preventDefault()
+    console.log('button clicked', event.target)
+  }
 
   return (
     <div>
-      <h1>{props.text}</h1>
-    </div>
-  )
-}
-
-
-const SelectAnec = (props) =>{
-// console.log(value);
-return(
-  <div>
-    {/* <h1>Anecdote of the day</h1> */}
-    <p>{props.value}</p>
-    <p>Has {props.valuevotes} votes</p>
-  </div>
-)
-}
-
-const Button = (props) => {
-  return (
-
-      <div>
-      <button onClick={props.handleClick}>{props.text}</button>
-      </div>
-    )
-}
-
-
-
-
-
-
-
-const App = () => {
-  const anecdotes = [
-    'If it hurts, do it more often.',
-    'Adding manpower to a late software project makes it later!',
-    'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-    'Premature optimization is the root of all evil.',
-    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
-    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
-    'The only way to go fast, is to go well.'
-  ]
- 
-
-   
-  const [selected, setSelected] = useState(0)
-  const votes= Array(anecdotes.length).fill(0);
-  const [vote, setVote] = useState(votes);
-   
- console.log("Vote1:", {vote}) 
-
-// console.log("Vote1:", {vote})
-
-
-const cntVotes = () => {
-  const newVotes = [...vote]
-  newVotes[selected] +=1
-    setVote(newVotes)
-  console.log("Vote2:", {vote})
-}
-
-
-// console.log(selected)
-  return (
-    
-    <div>
-      <Titles text="Anecdote of the day"/>
-      <SelectAnec value={anecdotes[selected]} valuevotes={vote[selected]}/>
-      <Button handleClick={cntVotes} text="Vote" />
-      <button onClick={()=> setSelected(Math.floor(Math.random()*7))}>Next Anecdote</button>
-      <Titles text="Most popular Anecdote"/>  
-      <SelectAnec value={anecdotes[vote.indexOf(Math.max(...vote))]} valuevotes={Math.max(...vote)}/>
-
-      
-      
-            
+      <h1>Notese</h1>
+      <ul>
+        {notes.map(note =>
+          <Note key={note.id} note={note}/>
+        )
+        }     
+      </ul>
+      <form onSubmit={addNote}>
+        <input/>
+        <button type="submit">Save</button>
+        </form>
     </div>
   )
 }
